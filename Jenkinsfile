@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('Upload to AWS') {
             steps {
                 sh 'echo "Hello World"'
                 sh '''
@@ -9,6 +9,9 @@ pipeline {
                     ls -lah
                 '''   
             } 
+        }
+        withAWS(region:'us-west-2') {
+            s3Upload(file:'static', bucket:'accidents-dashboard', path:'/home/mlaw/workspace/devops/static')
         }
     }
 }
