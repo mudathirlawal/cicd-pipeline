@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Upload to AWS') {
+        stage( 'Build' ) {
             steps {
                 sh 'echo "Hello World"'
                 sh '''
@@ -10,9 +10,13 @@ pipeline {
                 '''   
             } 
         }
-        withAWS(region:'us-west-2') {
-            s3Upload(file:'static', bucket:'accidents-dashboard', path:'/home/mlaw/workspace/devops/static')
-        }
+        stage( 'Upload to AWS' ) {
+            steps {
+                withAWS( region:'us-east-2', credentials:'aws-static' ) {
+                sh 'echo "Uploading content with AWS creds"'
+                    s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'index.html', bucket:'accidents-dashboard')
+                }
+            }
+        }       
     }
 }
-
