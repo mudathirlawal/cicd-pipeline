@@ -1,1 +1,1 @@
-# udagram-s3
+# static
