@@ -1,1 +1,1 @@
-# static
+# Jenkins Pipeline
